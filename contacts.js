@@ -67,7 +67,11 @@ async function removeContact(contactId) {
 };
 
 async function addContact(name, email, phone) {
-  const contactData = {id: parseInt(nanoid()), name, email, phone};
+  const contactData = { id: parseInt(nanoid()), name, email, phone };
+  if (!name || !email || !phone) {
+    console.error('Please enter correct contact data.');
+    return;
+  };
   let parsedData = await readDataFromFile(contactsPath);
   if (parsedData) {
     parsedData.push(contactData);
