@@ -7,7 +7,7 @@ const { customAlphabet } = require('nanoid');
 const nanoid = customAlphabet('1234567890', 5);
 
 // const contactsPath = path.resolve('./db/contacts.json');
-const contactsPath = path.join(__dirname, './db/contacts.json');
+const contactsPath = path.join(__dirname, 'db/contacts.json');
 
 async function readDataFromFile(pathname) {
   try {
@@ -32,18 +32,15 @@ async function writeDataToFile(pathname, data) {
 };
 
 async function listContacts() {
-  // const fileData = await fs.readFile(contactsPath, 'utf-8');
-  // const parsedData = JSON.parse(fileData);
   const parsedData = await readDataFromFile(contactsPath);
   if (parsedData) console.table(parsedData);
 };
 
 async function getContactById(contactId) {
-  // const fileData = await fs.readFile(contactsPath, 'utf-8');
-  // const parsedData = JSON.parse(fileData);
   const parsedData = await readDataFromFile(contactsPath);
   if (parsedData) {
-    const contactData = parsedData.find(contact => contact.id === parseInt(contactId));
+    const contactIdInteger = parseInt(contactId);
+    const contactData = parsedData.find(contact => contact.id === contactIdInteger);
     if (contactData) {
       console.table(contactData);
     } else {
@@ -53,19 +50,16 @@ async function getContactById(contactId) {
 };
 
 async function removeContact(contactId) {
-  // const fileData = await fs.readFile(contactsPath, 'utf-8');
-  // let parsedData = JSON.parse(fileData);
   let parsedData = await readDataFromFile(contactsPath);
   if (parsedData) {
-    if (parsedData.some(contactData => contactData.id === parseInt(contactId))) {
-      // console.log(`Contact with id ${contactId} found.`)
-      parsedData = parsedData.filter(contactData => contactData.id !== parseInt(contactId));
+    const contactIdInteger = parseInt(contactId);
+    if (parsedData.some(contactData => contactData.id === contactIdInteger)) {
+      parsedData = parsedData.filter(contactData => contactData.id !== contactIdInteger);
       if (writeDataToFile(contactsPath, parsedData)) {
         console.error(`Contact with id ${contactId} has been successfully removed.`);
       } else {
         console.error(`Contact with id ${contactId} couldn't be removed.`);
       };
-      // await fs.writeFile(contactsPath, JSON.stringify(parsedData), 'utf-8');
     } else {
       console.error(`Contact with id ${contactId} not found.`);
     };
@@ -74,8 +68,6 @@ async function removeContact(contactId) {
 
 async function addContact(name, email, phone) {
   const contactData = {id: parseInt(nanoid()), name, email, phone};
-  // const fileData = await fs.readFile(contactsPath, 'utf-8');
-  // const parsedData = JSON.parse(fileData);
   let parsedData = await readDataFromFile(contactsPath);
   if (parsedData) {
     parsedData.push(contactData);
@@ -84,7 +76,6 @@ async function addContact(name, email, phone) {
     } else {
       console.error(`Contact ${name} couldn't be added.`);
     };
-    // await fs.writeFile(contactsPath, JSON.stringify(parsedData), 'utf-8');
   };
 };
 

@@ -44,12 +44,3 @@ function invokeAction({ action, id, name, email, phone }) {
 }
 
 invokeAction(argv);
-  
-// console.log(__filename);
-// console.log(__dirname);
-// console.log(process.argv);
-
-// listContacts();
-// getContactById('77173');
-// addContact('My Name', 'my_email@mail.com', '(123) 456-7890');
-// removeContact('681');
